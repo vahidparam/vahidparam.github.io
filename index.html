@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vahid Khalili Param | Personal Website</title>
-  <meta name="description" content="Personal academic website of Vahid Khalili Param." />
+  <title>Vahid Param | Personal Website</title>
+  <meta name="description" content="Personal academic website of Vahid Param." />
   <style>
     :root {
       --bg: #0b1020;
-      --bg-soft: #163113;
+      --bg-soft: #131a31;
       --card: rgba(255,255,255,0.06);
       --card-border: rgba(255,255,255,0.12);
       --text: #edf2ff;
@@ -169,6 +169,45 @@
       display: grid;
       gap: 16px;
       align-content: start;
+    }
+
+    .profile-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .profile-frame {
+      position: relative;
+      border-radius: 26px;
+      padding: 10px;
+      background: linear-gradient(135deg, rgba(138,180,255,0.42), rgba(179,136,255,0.28));
+      overflow: hidden;
+    }
+
+    .profile-frame::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.14);
+      pointer-events: none;
+    }
+
+    .profile-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .profile-caption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
     }
 
     .stat-grid {
@@ -344,7 +383,7 @@
 <body>
   <header class="topbar">
     <div class="container nav">
-      <a class="brand" href="#home">Vahid Khalili Param</a>
+      <a class="brand" href="#home">Vahid Param</a>
       <nav class="nav-links">
         <a href="#about">About</a>
         <a href="#research">Research</a>
@@ -371,6 +410,17 @@
         </div>
 
         <aside class="hero-side hero-card">
+          <div class="profile-card">
+            <div class="profile-frame">
+              <img
+                class="profile-image"
+                src="images/profile.png"
+                alt="Portrait of Vahid Param"
+              />
+            </div>
+            <div class="profile-caption"></div>
+          </div>
+
           <div>
             <h3>Current Focus</h3>
             <p class="muted">Election analysis on social media, opinion dynamics, network-based behavioral analysis, and simulation-driven research.</p>
@@ -390,7 +440,7 @@
             </div>
             <div class="stat">
               <strong>3D Viz</strong>
-              <span class="small">JavaScript and network visuals</span>
+              <span class="small">JavaScript and 3D network visualizations</span>
             </div>
           </div>
         </aside>
@@ -465,7 +515,7 @@
         <div class="section-head">
           <div>
             <h2>Selected Projects</h2>
-            <p class="muted">Replace placeholders with your actual projects, papers, repositories, or demos.</p>
+            <p class="muted">Replace these placeholders with your actual projects, papers, repositories, or demos.</p>
           </div>
         </div>
         <div class="projects">
