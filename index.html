@@ -63,6 +63,20 @@
     .brand {
       font-weight: 800;
       letter-spacing: 0.02em;
+      display: inline-block;
+    }
+
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .brand-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.3;
     }
 
     .nav-links {
@@ -168,9 +182,9 @@
     }
 
     .btn-secondary {
-      background: rgba(247, 43, 7, 0.404);
+      background: rgba(247, 43, 7, 0.205);
       color: var(--text);
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255, 255, 255, 0);
     }
 
     .btn-lab {
@@ -472,7 +486,10 @@
 <body>
   <header class="topbar">
     <div class="container nav">
+      <div class="brand-block">
       <a class="brand" href="#home">Vahid Khalili Param</a>
+        <span class="muted" style="font-size:0.88rem;">In a never ending position of demanding research and exploration.</span>
+      </div>
       <nav class="nav-links">
         <a href="#about">About</a>
         <a href="#research">Research</a>
@@ -493,7 +510,7 @@
             I am a Computer Science & Engineering PhD candidate at Sabancı University and a member of VRL Lab. I work at the intersection of computational social science, social media analytics, network analysis, simulation, and data visualization. My work focuses on political discourse, agenda-setting dynamics, coordinated activity, and the structure of online behavior.
           </p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <!-- <a class="btn btn-primary" href="#projects">View Projects</a> -->
             <a class="btn btn-secondary" href="#contact">Get in Touch</a>
             <a class="btn btn-lab" href="https://varollab.com/index.html" target="_blank" rel="noreferrer">
               <!-- <img class="btn-icon" src="images/vrl-lab-icon.svg" alt="VRL Lab logo" /> -->
