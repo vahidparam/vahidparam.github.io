@@ -4,7 +4,7 @@
     "author": "David Easley and Jon Kleinberg",
     "rating": 4.8,
     "language": "English",
-    "read_date": "2018-11",
+    "read_date": "To be read",
     "published_year": 2010,
     "notes": "A strong foundation for thinking about networks, collective behavior, and social systems.",
     "tags": ["Network Science", "Collective Behavior"]
@@ -14,7 +14,7 @@
     "author": "Nate Silver",
     "rating": 4.4,
     "language": "English",
-    "read_date": "2021-04",
+    "read_date": "To be read",
     "published_year": 2012,
     "notes": "Useful for thinking about uncertainty, prediction, and the limits of analytical confidence.",
     "tags": ["Prediction", "Uncertainty"]
@@ -34,7 +34,7 @@
     "author": "Albert-László Barabási",
     "rating": 4.5,
     "language": "English",
-    "read_date": "2017-02",
+    "read_date": "To be read",
     "published_year": 2002,
     "notes": "An accessible and influential introduction to network thinking and complex connected systems.",
     "tags": ["Networks", "Complex Systems"]
@@ -44,7 +44,7 @@
     "author": "Jonathan Haidt",
     "rating": 4.2,
     "language": "English",
-    "read_date": "2020-10",
+    "read_date": "To be read",
     "published_year": 2012,
     "notes": "Helpful for reflecting on political disagreement, morality, and group-based reasoning.",
     "tags": ["Politics", "Psychology"]
@@ -54,7 +54,7 @@
     "author": "Matthew J. Salganik",
     "rating": 4.7,
     "language": "English",
-    "read_date": "2023-03",
+    "read_date": "To be read",
     "published_year": 2017,
     "notes": "A very relevant book for computational social science and digital trace research.",
     "tags": ["Computational Social Science", "Research Methods"]
@@ -64,7 +64,7 @@
     "author": "Richard H. Thaler and Cass R. Sunstein",
     "rating": 4.5,
     "language": "English",
-    "read_date": "2018-06",
+    "read_date": "2022-06",
     "published_year": 2008,
     "notes": "A practical and influential book on behavioral economics, decision architecture, and policy design.",
     "tags": ["Behavioral Economics", "Public Policy"]
@@ -74,7 +74,7 @@
     "author": "",
     "rating": 4.3,
     "language": "Persian",
-    "read_date": "2022-09",
+    "read_date": "2020-09",
     "published_year": 2017,
     "notes": "A readable and accessible discussion of economics for a broad audience.",
     "tags": ["Economics", "Public Understanding"]
@@ -84,7 +84,7 @@
     "author": "Paul Bourgine and Jean-Pierre Nadal (eds.)",
     "rating": 4.4,
     "language": "English",
-    "read_date": "2021-12",
+    "read_date": "2018-12",
     "published_year": 2004,
     "notes": "An interdisciplinary volume linking economics, cognition, dynamics, and computational approaches.",
     "tags": ["Economics", "Cognition", "Interdisciplinary"]
@@ -114,7 +114,7 @@
     "author": "Alex Pentland",
     "rating": 4.6,
     "language": "English",
-    "read_date": "2024-05",
+    "read_date": "2022-05",
     "published_year": 2015,
     "notes": "A strong book on idea flow, social influence, and collective intelligence.",
     "tags": ["Social Networks", "Collective Intelligence", "Behavior"]
@@ -124,7 +124,7 @@
     "author": "Alex Pentland",
     "rating": 4.4,
     "language": "English",
-    "read_date": "2020-02",
+    "read_date": "2023-02",
     "published_year": 2008,
     "notes": "Focuses on the hidden social signals that shape interaction, trust, and coordination.",
     "tags": ["Social Signals", "Communication", "Behavior"]
@@ -134,7 +134,7 @@
     "author": "Joshua M. Epstein",
     "rating": 4.7,
     "language": "English",
-    "read_date": "2023-11",
+    "read_date": "2021-11",
     "published_year": 2006,
     "notes": "A key book for agent-based modeling and simulation-driven explanation in social science.",
     "tags": ["Simulation", "Agent-Based Modeling", "Computational Social Science"]
@@ -144,7 +144,7 @@
     "author": "Joshua M. Epstein and Robert L. Axtell",
     "rating": 4.8,
     "language": "English",
-    "read_date": "2022-01",
+    "read_date": "2021-01",
     "published_year": 1996,
     "notes": "A classic on bottom-up social simulation and emergent behavior.",
     "tags": ["Simulation", "Emergence", "Artificial Societies"]
@@ -154,7 +154,7 @@
     "author": "Joshua M. Epstein",
     "rating": 4.5,
     "language": "English",
-    "read_date": "2025-02",
+    "read_date": "2021-02",
     "published_year": 2014,
     "notes": "Connects simulation, cognition, and social behavior in generative social science.",
     "tags": ["Simulation", "Cognition", "Generative Social Science"]
