@@ -20,8 +20,8 @@
       --text: #edf2ff;
       --muted: #b8c2e1;
       --accent: #E86100;
-      --accent-2: #ec66008f;
-      --accent-3: #be5103;
+      --accent-2: #003fec8f;
+      --accent-3: #0310be;
       --lab_accent: rgba(39, 208, 214, 0.582);
       --shadow: 0 20px 60px rgba(0,0,0,0.35);
       --radius: 22px;
@@ -38,7 +38,7 @@
       background:
         radial-gradient(circle at top left, rgba(179, 127, 50, 0.329), transparent 28%),
         radial-gradient(circle at top right, rgba(27, 77, 60, 0.699), transparent 24%),
-        linear-gradient(180deg, #0a0f1d 0%, #12413d 100%);
+        linear-gradient(180deg, #0a0f1d 0%, #365045 100%);
       line-height: 1.65;
       min-height: 100vh;
     }
@@ -171,7 +171,7 @@
 
     .books-toolbar {
       display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
+      grid-template-columns: 0.7fr 1.3fr;
       gap: 20px;
       margin-bottom: 22px;
     }
@@ -221,6 +221,38 @@
     .sort-select option {
       background: #12201d;
       color: var(--text);
+    }
+
+    .filter-title {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .language-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+      font-size: 0.9rem;
+    }
+
+    .filter-chip input {
+      accent-color: var(--accent);
+      cursor: pointer;
     }
 
     .books-grid {
@@ -291,6 +323,12 @@
       font-size: 0.86rem;
     }
 
+    .tag-language {
+      background: rgba(232, 97, 0, 0.14);
+      border: 1px solid rgba(232, 97, 0, 0.24);
+      color: #ffe3d1;
+    }
+
     .empty-state {
       grid-column: 1 / -1;
       padding: 28px;
@@ -312,7 +350,6 @@
     }
 
     @media (max-width: 980px) {
-      .books-toolbar,
       .books-grid {
         grid-template-columns: 1fr 1fr;
       }
@@ -356,7 +393,6 @@
       <nav class="nav-links">
         <a href="../">Home</a>
         <a href="./" class="active">Bookshelf</a>
-        
       </nav>
     </div>
   </header>
@@ -379,7 +415,6 @@
         <div class="section-head">
           <div>
             <h2>My Books</h2>
-            <!-- <p class="small">Replace the sample entries below with your own books and ratings.</p> -->
           </div>
         </div>
 
@@ -402,7 +437,7 @@
               id="search-input"
               class="search-input"
               type="text"
-              placeholder="Search by title, author, or tag..."
+              placeholder="Search by title, author, tag, or language..."
             />
 
             <select id="sort-select" class="sort-select">
@@ -411,6 +446,20 @@
               <option value="title-asc">Sort by title: A to Z</option>
               <option value="title-desc">Sort by title: Z to A</option>
             </select>
+
+            <div>
+              <div class="filter-title">Filter by language</div>
+              <div class="language-filters">
+                <label class="filter-chip">
+                  <input type="checkbox" class="language-checkbox" value="English" checked />
+                  <span>English</span>
+                </label>
+                <label class="filter-chip">
+                  <input type="checkbox" class="language-checkbox" value="Persian" checked />
+                  <span>Persian</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -433,6 +482,7 @@
         title: "Networks, Crowds, and Markets",
         author: "David Easley and Jon Kleinberg",
         rating: 4.8,
+        language: "English",
         notes: "A strong foundation for thinking about networks, collective behavior, and social systems.",
         tags: ["Network Science", "Collective Behavior"]
       },
@@ -440,6 +490,7 @@
         title: "The Signal and the Noise",
         author: "Nate Silver",
         rating: 4.4,
+        language: "English",
         notes: "Useful for thinking about uncertainty, prediction, and the limits of analytical confidence.",
         tags: ["Prediction", "Uncertainty"]
       },
@@ -447,6 +498,7 @@
         title: "Thinking, Fast and Slow",
         author: "Daniel Kahneman",
         rating: 4.6,
+        language: "English",
         notes: "Important for understanding judgment, bias, and decision-making in human systems.",
         tags: ["Behavior", "Decision Making"]
       },
@@ -454,6 +506,7 @@
         title: "Linked",
         author: "Albert-László Barabási",
         rating: 4.5,
+        language: "English",
         notes: "An accessible and influential introduction to network thinking and complex connected systems.",
         tags: ["Networks", "Complex Systems"]
       },
@@ -461,6 +514,7 @@
         title: "The Righteous Mind",
         author: "Jonathan Haidt",
         rating: 4.2,
+        language: "English",
         notes: "Helpful for reflecting on political disagreement, morality, and group-based reasoning.",
         tags: ["Politics", "Psychology"]
       },
@@ -468,8 +522,33 @@
         title: "Bit by Bit",
         author: "Matthew J. Salganik",
         rating: 4.7,
+        language: "English",
         notes: "A very relevant book for computational social science and digital trace research.",
         tags: ["Computational Social Science", "Research Methods"]
+      },
+      {
+        title: "Nudge",
+        author: "Richard H. Thaler and Cass R. Sunstein",
+        rating: 4.5,
+        language: "English",
+        notes: "A practical and influential book on behavioral economics, decision architecture, and policy design.",
+        tags: ["Behavioral Economics", "Public Policy"]
+      },
+      {
+        title: "حرف‌هایی با دخترم درباره اقتصاد",
+        author: "",
+        rating: 4.3,
+        language: "Persian",
+        notes: "A readable and accessible discussion of economics for a broad audience.",
+        tags: ["Economics", "Public Understanding"]
+      },
+      {
+        title: "Cognitive Economics: An Interdisciplinary Approach",
+        author: "Paul Bourgine and Jean-Pierre Nadal (eds.)",
+        rating: 4.4,
+        language: "English",
+        notes: "An interdisciplinary volume linking economics, cognition, dynamics, and computational approaches.",
+        tags: ["Economics", "Cognition", "Interdisciplinary"]
       }
     ];
 
@@ -478,6 +557,7 @@
     const sortSelect = document.getElementById("sort-select");
     const totalBooksEl = document.getElementById("total-books");
     const avgRatingEl = document.getElementById("avg-rating");
+    const languageCheckboxes = document.querySelectorAll(".language-checkbox");
 
     function updateStats(data) {
       totalBooksEl.textContent = data.length;
@@ -512,21 +592,34 @@
       return sorted;
     }
 
+    function getSelectedLanguages() {
+      return [...languageCheckboxes]
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+    }
+
     function renderBooks() {
       const query = searchInput.value.trim().toLowerCase();
       const sortMode = sortSelect.value;
+      const selectedLanguages = getSelectedLanguages();
 
       const filtered = books.filter(book => {
+        const matchesLanguage =
+          selectedLanguages.length === 0 || selectedLanguages.includes(book.language);
+
         const haystack = [
           book.title,
           book.author,
+          book.language,
           ...(book.tags || []),
           book.notes || ""
         ]
           .join(" ")
           .toLowerCase();
 
-        return haystack.includes(query);
+        const matchesQuery = haystack.includes(query);
+
+        return matchesLanguage && matchesQuery;
       });
 
       const sorted = sortBooks(filtered, sortMode);
@@ -536,7 +629,7 @@
       if (!sorted.length) {
         booksGrid.innerHTML = `
           <div class="empty-state">
-            No books match your search.
+            No books match your current search or language filter.
           </div>
         `;
         return;
@@ -547,7 +640,7 @@
           <div class="book-top">
             <div>
               <h3 class="book-title">${book.title}</h3>
-              <div class="book-author">${book.author}</div>
+              <div class="book-author">${book.author || " "}</div>
             </div>
             <div class="rating-badge">★ ${book.rating.toFixed(1)}/5</div>
           </div>
@@ -555,6 +648,7 @@
           <p class="book-notes">${book.notes || ""}</p>
 
           <div class="book-tags">
+            <span class="tag tag-language">${book.language}</span>
             ${(book.tags || []).map(tag => `<span class="tag">${tag}</span>`).join("")}
           </div>
         </article>
@@ -563,6 +657,9 @@
 
     searchInput.addEventListener("input", renderBooks);
     sortSelect.addEventListener("change", renderBooks);
+    languageCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener("change", renderBooks);
+    });
 
     renderBooks();
   </script>
