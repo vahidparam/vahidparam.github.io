@@ -302,6 +302,23 @@
       white-space: nowrap;
     }
 
+
+    .book-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 14px;
+    }
+
+    .meta-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
     .book-notes {
       color: var(--muted);
       margin: 0 0 14px;
@@ -475,193 +492,155 @@
   </footer>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-    const books = [
-      {
-        title: "Networks, Crowds, and Markets",
-        author: "David Easley and Jon Kleinberg",
-        rating: 4.8,
-        language: "English",
-        notes: "A strong foundation for thinking about networks, collective behavior, and social systems.",
-        tags: ["Network Science", "Collective Behavior"]
-      },
-      {
-        title: "The Signal and the Noise",
-        author: "Nate Silver",
-        rating: 4.4,
-        language: "English",
-        notes: "Useful for thinking about uncertainty, prediction, and the limits of analytical confidence.",
-        tags: ["Prediction", "Uncertainty"]
-      },
-      {
-        title: "Thinking, Fast and Slow",
-        author: "Daniel Kahneman",
-        rating: 4.6,
-        language: "English",
-        notes: "Important for understanding judgment, bias, and decision-making in human systems.",
-        tags: ["Behavior", "Decision Making"]
-      },
-      {
-        title: "Linked",
-        author: "Albert-László Barabási",
-        rating: 4.5,
-        language: "English",
-        notes: "An accessible and influential introduction to network thinking and complex connected systems.",
-        tags: ["Networks", "Complex Systems"]
-      },
-      {
-        title: "The Righteous Mind",
-        author: "Jonathan Haidt",
-        rating: 4.2,
-        language: "English",
-        notes: "Helpful for reflecting on political disagreement, morality, and group-based reasoning.",
-        tags: ["Politics", "Psychology"]
-      },
-      {
-        title: "Bit by Bit",
-        author: "Matthew J. Salganik",
-        rating: 4.7,
-        language: "English",
-        notes: "A very relevant book for computational social science and digital trace research.",
-        tags: ["Computational Social Science", "Research Methods"]
-      },
-      {
-        title: "Nudge",
-        author: "Richard H. Thaler and Cass R. Sunstein",
-        rating: 4.5,
-        language: "English",
-        notes: "A practical and influential book on behavioral economics, decision architecture, and policy design.",
-        tags: ["Behavioral Economics", "Public Policy"]
-      },
-      {
-        title: "حرف‌هایی با دخترم درباره اقتصاد",
-        author: "",
-        rating: 4.3,
-        language: "Persian",
-        notes: "A readable and accessible discussion of economics for a broad audience.",
-        tags: ["Economics", "Public Understanding"]
-      },
-      {
-        title: "Cognitive Economics: An Interdisciplinary Approach",
-        author: "Paul Bourgine and Jean-Pierre Nadal (eds.)",
-        rating: 4.4,
-        language: "English",
-        notes: "An interdisciplinary volume linking economics, cognition, dynamics, and computational approaches.",
-        tags: ["Economics", "Cognition", "Interdisciplinary"]
-      }
-    ];
+  let books = [];
 
-    const booksGrid = document.getElementById("books-grid");
-    const searchInput = document.getElementById("search-input");
-    const sortSelect = document.getElementById("sort-select");
-    const totalBooksEl = document.getElementById("total-books");
-    const avgRatingEl = document.getElementById("avg-rating");
-    const languageCheckboxes = document.querySelectorAll(".language-checkbox");
+  const booksGrid = document.getElementById("books-grid");
+  const searchInput = document.getElementById("search-input");
+  const sortSelect = document.getElementById("sort-select");
+  const totalBooksEl = document.getElementById("total-books");
+  const avgRatingEl = document.getElementById("avg-rating");
+  const languageCheckboxes = document.querySelectorAll(".language-checkbox");
 
-    function updateStats(data) {
-      totalBooksEl.textContent = data.length;
+  function updateStats(data) {
+    totalBooksEl.textContent = data.length;
 
-      if (!data.length) {
-        avgRatingEl.textContent = "0.0";
-        return;
-      }
-
-      const avg = data.reduce((sum, book) => sum + book.rating, 0) / data.length;
-      avgRatingEl.textContent = avg.toFixed(1);
+    if (!data.length) {
+      avgRatingEl.textContent = "0.0";
+      return;
     }
 
-    function sortBooks(data, sortMode) {
-      const sorted = [...data];
+    const avg = data.reduce((sum, book) => sum + Number(book.rating || 0), 0) / data.length;
+    avgRatingEl.textContent = avg.toFixed(1);
+  }
 
-      switch (sortMode) {
-        case "rating-asc":
-          sorted.sort((a, b) => a.rating - b.rating);
-          break;
-        case "title-asc":
-          sorted.sort((a, b) => a.title.localeCompare(b.title));
-          break;
-        case "title-desc":
-          sorted.sort((a, b) => b.title.localeCompare(a.title));
-          break;
-        case "rating-desc":
-        default:
-          sorted.sort((a, b) => b.rating - a.rating);
-      }
+  function sortBooks(data, sortMode) {
+    const sorted = [...data];
 
-      return sorted;
+    switch (sortMode) {
+      case "rating-asc":
+        sorted.sort((a, b) => Number(a.rating || 0) - Number(b.rating || 0));
+        break;
+      case "title-asc":
+        sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+        break;
+      case "title-desc":
+        sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+        break;
+      case "rating-desc":
+      default:
+        sorted.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
     }
 
-    function getSelectedLanguages() {
-      return [...languageCheckboxes]
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
-    }
+    return sorted;
+  }
 
-    function renderBooks() {
-      const query = searchInput.value.trim().toLowerCase();
-      const sortMode = sortSelect.value;
-      const selectedLanguages = getSelectedLanguages();
+  function getSelectedLanguages() {
+    return [...languageCheckboxes]
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
+  }
 
-      const filtered = books.filter(book => {
-        const matchesLanguage =
-          selectedLanguages.length === 0 || selectedLanguages.includes(book.language);
+  function renderBooks() {
+    const query = searchInput.value.trim().toLowerCase();
+    const sortMode = sortSelect.value;
+    const selectedLanguages = getSelectedLanguages();
 
-        const haystack = [
-          book.title,
-          book.author,
-          book.language,
-          ...(book.tags || []),
-          book.notes || ""
-        ]
-          .join(" ")
-          .toLowerCase();
+    const filtered = books.filter(book => {
+      const matchesLanguage =
+        selectedLanguages.length === 0 || selectedLanguages.includes(book.language);
 
-        const matchesQuery = haystack.includes(query);
+      const haystack = [
+        book.title || "",
+        book.author || "",
+        book.language || "",
+        book.read_date || "",
+        book.published_year || "",
+        ...(book.tags || []),
+        book.notes || ""
+      ]
+        .join(" ")
+        .toLowerCase();
 
-        return matchesLanguage && matchesQuery;
-      });
+      const matchesQuery = haystack.includes(query);
 
-      const sorted = sortBooks(filtered, sortMode);
-
-      updateStats(sorted);
-
-      if (!sorted.length) {
-        booksGrid.innerHTML = `
-          <div class="empty-state">
-            No books match your current search or language filter.
-          </div>
-        `;
-        return;
-      }
-
-      booksGrid.innerHTML = sorted.map(book => `
-        <article class="book-card">
-          <div class="book-top">
-            <div>
-              <h3 class="book-title">${book.title}</h3>
-              <div class="book-author">${book.author || " "}</div>
-            </div>
-            <div class="rating-badge">★ ${book.rating.toFixed(1)}/5</div>
-          </div>
-
-          <p class="book-notes">${book.notes || ""}</p>
-
-          <div class="book-tags">
-            <span class="tag tag-language">${book.language}</span>
-            ${(book.tags || []).map(tag => `<span class="tag">${tag}</span>`).join("")}
-          </div>
-        </article>
-      `).join("");
-    }
-
-    searchInput.addEventListener("input", renderBooks);
-    sortSelect.addEventListener("change", renderBooks);
-    languageCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener("change", renderBooks);
+      return matchesLanguage && matchesQuery;
     });
 
-    renderBooks();
-  </script>
+    const sorted = sortBooks(filtered, sortMode);
+
+    updateStats(sorted);
+
+    if (!sorted.length) {
+      booksGrid.innerHTML = `
+        <div class="empty-state">
+          No books match your current search or language filter.
+        </div>
+      `;
+      return;
+    }
+
+    booksGrid.innerHTML = sorted.map(book => `
+      <article class="book-card">
+        <div class="book-top">
+          <div>
+            <h3 class="book-title">${book.title || ""}</h3>
+            <div class="book-author">${book.author || " "}</div>
+          </div>
+          <div class="rating-badge">★ ${Number(book.rating || 0).toFixed(1)}/5</div>
+        </div>
+
+        <div class="book-meta">
+          <span class="meta-pill">Published: ${book.published_year || "—"}</span>
+          <span class="meta-pill">Read: ${book.read_date || "—"}</span>
+        </div>
+
+        <p class="book-notes">${book.notes || ""}</p>
+
+        <div class="book-tags">
+          <span class="tag tag-language">${book.language || "Unknown"}</span>
+          ${(book.tags || []).map(tag => `<span class="tag">${tag}</span>`).join("")}
+        </div>
+      </article>
+    `).join("");
+  }
+
+  async function loadBooks() {
+    booksGrid.innerHTML = `
+      <div class="empty-state">
+        Loading books...
+      </div>
+    `;
+
+    try {
+      const response = await fetch("./books.json");
+
+      if (!response.ok) {
+        throw new Error(`Failed to load book.json (${response.status})`);
+      }
+
+      books = await response.json();
+      renderBooks();
+    } catch (error) {
+      console.error(error);
+      booksGrid.innerHTML = `
+        <div class="empty-state">
+          Could not load the book list.
+        </div>
+      `;
+      totalBooksEl.textContent = "0";
+      avgRatingEl.textContent = "0.0";
+    }
+  }
+
+  searchInput.addEventListener("input", renderBooks);
+  sortSelect.addEventListener("change", renderBooks);
+  languageCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener("change", renderBooks);
+  });
+
+  loadBooks();
+</script>
 </body>
 </html>

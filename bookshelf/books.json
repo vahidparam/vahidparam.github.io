@@ -1,0 +1,162 @@
+[
+  {
+    "title": "Networks, Crowds, and Markets",
+    "author": "David Easley and Jon Kleinberg",
+    "rating": 4.8,
+    "language": "English",
+    "read_date": "2018-11",
+    "published_year": 2010,
+    "notes": "A strong foundation for thinking about networks, collective behavior, and social systems.",
+    "tags": ["Network Science", "Collective Behavior"]
+  },
+  {
+    "title": "The Signal and the Noise",
+    "author": "Nate Silver",
+    "rating": 4.4,
+    "language": "English",
+    "read_date": "2021-04",
+    "published_year": 2012,
+    "notes": "Useful for thinking about uncertainty, prediction, and the limits of analytical confidence.",
+    "tags": ["Prediction", "Uncertainty"]
+  },
+  {
+    "title": "Thinking, Fast and Slow",
+    "author": "Daniel Kahneman",
+    "rating": 4.6,
+    "language": "English",
+    "read_date": "2019-07",
+    "published_year": 2011,
+    "notes": "Important for understanding judgment, bias, and decision-making in human systems.",
+    "tags": ["Behavior", "Decision Making"]
+  },
+  {
+    "title": "Linked",
+    "author": "Albert-László Barabási",
+    "rating": 4.5,
+    "language": "English",
+    "read_date": "2017-02",
+    "published_year": 2002,
+    "notes": "An accessible and influential introduction to network thinking and complex connected systems.",
+    "tags": ["Networks", "Complex Systems"]
+  },
+  {
+    "title": "The Righteous Mind",
+    "author": "Jonathan Haidt",
+    "rating": 4.2,
+    "language": "English",
+    "read_date": "2020-10",
+    "published_year": 2012,
+    "notes": "Helpful for reflecting on political disagreement, morality, and group-based reasoning.",
+    "tags": ["Politics", "Psychology"]
+  },
+  {
+    "title": "Bit by Bit",
+    "author": "Matthew J. Salganik",
+    "rating": 4.7,
+    "language": "English",
+    "read_date": "2023-03",
+    "published_year": 2017,
+    "notes": "A very relevant book for computational social science and digital trace research.",
+    "tags": ["Computational Social Science", "Research Methods"]
+  },
+  {
+    "title": "Nudge",
+    "author": "Richard H. Thaler and Cass R. Sunstein",
+    "rating": 4.5,
+    "language": "English",
+    "read_date": "2018-06",
+    "published_year": 2008,
+    "notes": "A practical and influential book on behavioral economics, decision architecture, and policy design.",
+    "tags": ["Behavioral Economics", "Public Policy"]
+  },
+  {
+    "title": "حرف‌هایی با دخترم درباره اقتصاد",
+    "author": "",
+    "rating": 4.3,
+    "language": "Persian",
+    "read_date": "2022-09",
+    "published_year": 2017,
+    "notes": "A readable and accessible discussion of economics for a broad audience.",
+    "tags": ["Economics", "Public Understanding"]
+  },
+  {
+    "title": "Cognitive Economics: An Interdisciplinary Approach",
+    "author": "Paul Bourgine and Jean-Pierre Nadal (eds.)",
+    "rating": 4.4,
+    "language": "English",
+    "read_date": "2021-12",
+    "published_year": 2004,
+    "notes": "An interdisciplinary volume linking economics, cognition, dynamics, and computational approaches.",
+    "tags": ["Economics", "Cognition", "Interdisciplinary"]
+  },
+  {
+    "title": "The Emotion Machine: Commonsense Thinking, Artificial Intelligence, and the Future of the Human Mind",
+    "author": "Marvin Minsky",
+    "rating": 4.5,
+    "language": "English",
+    "read_date": "2016-08",
+    "published_year": 2006,
+    "notes": "A major book on mind, cognition, and emotion from an AI perspective.",
+    "tags": ["AI", "Cognition", "Mind"]
+  },
+  {
+    "title": "The Society of Mind",
+    "author": "Marvin Minsky",
+    "rating": 4.4,
+    "language": "English",
+    "read_date": "2017-11",
+    "published_year": 1986,
+    "notes": "A foundational work on intelligence, mental structure, and modular thinking.",
+    "tags": ["AI", "Cognition", "Mind"]
+  },
+  {
+    "title": "Social Physics: How Social Networks Can Make Us Smarter",
+    "author": "Alex Pentland",
+    "rating": 4.6,
+    "language": "English",
+    "read_date": "2024-05",
+    "published_year": 2015,
+    "notes": "A strong book on idea flow, social influence, and collective intelligence.",
+    "tags": ["Social Networks", "Collective Intelligence", "Behavior"]
+  },
+  {
+    "title": "Honest Signals: How They Shape Our World",
+    "author": "Alex Pentland",
+    "rating": 4.4,
+    "language": "English",
+    "read_date": "2020-02",
+    "published_year": 2008,
+    "notes": "Focuses on the hidden social signals that shape interaction, trust, and coordination.",
+    "tags": ["Social Signals", "Communication", "Behavior"]
+  },
+  {
+    "title": "Generative Social Science: Studies in Agent-Based Computational Modeling",
+    "author": "Joshua M. Epstein",
+    "rating": 4.7,
+    "language": "English",
+    "read_date": "2023-11",
+    "published_year": 2006,
+    "notes": "A key book for agent-based modeling and simulation-driven explanation in social science.",
+    "tags": ["Simulation", "Agent-Based Modeling", "Computational Social Science"]
+  },
+  {
+    "title": "Growing Artificial Societies: Social Science from the Bottom Up",
+    "author": "Joshua M. Epstein and Robert L. Axtell",
+    "rating": 4.8,
+    "language": "English",
+    "read_date": "2022-01",
+    "published_year": 1996,
+    "notes": "A classic on bottom-up social simulation and emergent behavior.",
+    "tags": ["Simulation", "Emergence", "Artificial Societies"]
+  },
+  {
+    "title": "Agent_Zero: Toward Neurocognitive Foundations for Generative Social Science",
+    "author": "Joshua M. Epstein",
+    "rating": 4.5,
+    "language": "English",
+    "read_date": "2025-02",
+    "published_year": 2014,
+    "notes": "Connects simulation, cognition, and social behavior in generative social science.",
+    "tags": ["Simulation", "Cognition", "Generative Social Science"]
+  }
+]
