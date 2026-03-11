@@ -424,34 +424,46 @@
       z-index: 2;
     }
 
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.85fr);
+      gap: 8px;
+      align-items: center;
+    }
+
+    .about-panel {
+      max-width: 100%;
+      background: rgba(10, 20, 25, 0.62);
+      backdrop-filter: blur(3px);
+    }
+
+    .about-spacer {
+      min-height: 420px;
+    }
+
     .about-background {
       position: absolute;
       inset: 0;
       z-index: 0;
       pointer-events: none;
       opacity: 0;
-      transform: translateY(38px) scale(0.8);
-      transition: opacity 1s ease, transform 2.1s ease;
+      transform: translateX(10px) translateY(100px) scale(0.7);
+      transition: opacity 0.5s ease, transform 1.8s ease;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      padding-left: min(4vw, 20px);
+      justify-content: flex-end;
+      padding-right: min(4vw, 5px);
     }
 
     .about-section.in-view .about-background {
-      opacity: 0.92;
-      transform: translateY(0) scale(1.1);
+      opacity: 1;
+      transform: translateX(0) translateY(0) scale(1.1);
     }
 
     .about-bg-image {
-      width: min(1200px, 35%);
+      width: min(1400px, 45%);
       height: auto;
-      filter: drop-shadow(0 24px 60px rgba(36, 152, 230, 0.89));
-    }
-
-    .about-section .panel {
-      background: rgba(10, 20, 25, 0.52);
-      backdrop-filter: blur(3px);
+      filter: drop-shadow(0 24px 60px rgba(36, 152, 230, 0.55));
     }
 
     .projects-section {
@@ -506,8 +518,13 @@
       .hero-grid,
       .grid-2,
       .contact-card,
-      .projects {
+      .projects,
+      .about-layout {
         grid-template-columns: 1fr;
+      }
+
+      .about-spacer {
+        min-height: 260px;
       }
 
       .about-background,
@@ -545,6 +562,10 @@
         grid-template-columns: 1fr;
       }
 
+      .about-spacer {
+        display: none;
+      }
+
       .about-background,
       .projects-background {
         opacity: 0.12;
@@ -575,10 +596,8 @@
         <a href="#about">About</a>
         <a href="#research">Research</a>
         <a href="#projects">Projects</a>
-        <!-- <a href="#experience">Experience</a> -->
         <a href="#contact">Contact</a>
         <a href="bookshelf/">Bookshelf</a>
-
       </nav>
     </div>
   </header>
@@ -598,10 +617,8 @@
             coordinated activity, and the structure of online behavior.
           </p>
           <div class="cta-row">
-            <!-- <a class="btn btn-primary" href="#projects">View Projects</a> -->
             <a class="btn btn-secondary" href="#contact">Get in Touch</a>
             <a class="btn btn-lab" href="https://varollab.com/index.html" target="_blank" rel="noreferrer">
-              <!-- <img class="btn-icon" src="images/vrl-lab-icon.svg" alt="VRL Lab logo" /> -->
               VRL Lab
             </a>
           </div>
@@ -619,25 +636,7 @@
             <h3>Current Focus</h3>
             <p class="muted">Election Analysis on Social Media, Network Science, and Social Simulations.</p>
           </div>
-          <!-- <div class="stat-grid">
-            <div class="stat">
-              <strong>PhD</strong>
-              <span class="small">Computer Science & Engineering</span>
-            </div>
-            <div class="stat">
-              <strong>VRL Lab</strong>
-              <span class="small">Computational Social Science</span>
-            </div> -->
-          <!-- <div class="stat">
-              <strong>Data Science</strong>
-              <span class="small">Data analysis and modeling</span>  -->
-          <!-- </div>
-            <div class="stat">
-              <strong>Visualization</strong>
-              <span class="small">Data visualization and 3D network visualization</span>
-            </div> -->
-      </div>
-      </aside>
+        </aside>
       </div>
     </section>
 
@@ -653,8 +652,9 @@
             <p class="muted">In a never-ending pursuit of meaningful research, knowledge, and lifelong learning.</p>
           </div>
         </div>
-        <div class="grid-2">
-          <div class="panel">
+
+        <div class="about-layout">
+          <div class="panel about-panel">
             <p>
               I am a PhD candidate in Computer Science & Engineering. My research centers on computational social
               science, with emphasis on social media data analysis, electoral dynamics, social simulations, and
@@ -665,20 +665,8 @@
               agenda setting, coordinated action, and public discourse across platforms.
             </p>
           </div>
-          <div class="panel">
-            <h3>Core Areas and Skills</h3>
-            <div class="chips">
-              <span class="chip">Computational Social Science</span>
-              <span class="chip">Social Media Analysis</span>
-              <span class="chip">Election Analysis</span>
-              <span class="chip">Network Science</span>
-              <span class="chip">Opinion Dynamics</span>
-              <span class="chip">Data Visualization</span>
-              <span class="chip">Python</span>
-              <span class="chip">JavaScript</span>
-              <span class="chip">Statistical Inference</span>
-            </div>
-          </div>
+
+          <div class="about-spacer" aria-hidden="true"></div>
         </div>
       </div>
     </section>
@@ -688,7 +676,6 @@
         <div class="section-head">
           <div>
             <h2>Research Themes</h2>
-            <!-- <p class="muted">Use these blocks to highlight your academic identity clearly.</p> -->
           </div>
         </div>
         <div class="projects">
@@ -736,12 +723,7 @@
             <a class="small" href="https://varollab.com/projects/tubitak1001election.html" target="_blank">Read more
               about the project →</a>
           </article>
-          <!-- <article class="project">
-            <div class="tagline">Project</div>
-            <h3>3D Network Visualization</h3>
-            <p>An interactive visualization workflow for large-scale political or social networks using browser-based 3D rendering.</p>
-            <a class="small" href="#">Add project link →</a>
-          </article> -->
+
           <article class="project">
             <div class="tagline">completed</div>
             <h3>TUBITAK 2247D - Coordinated Activity Analysis</h3>
@@ -753,19 +735,19 @@
       </div>
     </section>
 
-    <!-- <section id="experience">
+    <!--
+    <section id="experience">
       <div class="container">
         <div class="section-head">
           <div>
             <h2>Experience</h2>
-            <!-- <p class="muted">Present your path in a clean timeline format.</p> -->
-    <!-- </div>
+          </div>
         </div>
         <div class="timeline">
           <div class="timeline-item">
             <div class="meta">Current</div>
             <h3>PhD Candidate</h3>
-            <p class="muted"> Computer Science & Engineering PhD candidate at Sabancı University and a member of VRL Lab, a Computational Social Science research lab.</p>
+            <p class="muted">Computer Science & Engineering PhD candidate at Sabancı University and a member of VRL Lab, a Computational Social Science research lab.</p>
           </div>
           <div class="timeline-item">
             <div class="meta">Research</div>
@@ -775,31 +757,25 @@
           <div class="timeline-item">
             <div class="meta">Teaching</div>
             <h3>Teaching Assistantships</h3>
-            <p class="muted"> Data Science, Human Computer Interaction, Database Management Systems, and Network Science.</p>
+            <p class="muted">Data Science, Human Computer Interaction, Database Management Systems, and Network Science.</p>
           </div>
         </div>
       </div>
-    </section> -->
+    </section>
+    -->
+
     <section id="contact">
       <div class="container">
         <div class="contact-card">
           <div>
             <h2>Contact</h2>
-            <!-- <p class="muted">
-              This section should make it easy for collaborators, faculty, and students to reach you.
-            </p> -->
             <div class="contact-links">
               <a class="contact-link" href="mailto:vahid.khalili@sabanciuniv.edu">Email</a>
               <a class="contact-link" href="https://github.com/vahidparam" target="_blank" rel="noreferrer">GitHub</a>
               <a class="contact-link" href="https://www.linkedin.com/in/vahidkhaliliparam/" target="_blank"
                 rel="noreferrer">LinkedIn</a>
-              <!-- <a class="contact-link" href="#">Google Scholar</a> -->
             </div>
           </div>
-          <!-- <div class="panel" style="padding:20px; box-shadow:none;">
-            <strong>Socials</strong>
-            <p class="muted" style="margin:10px 0 0;">When you publish this on GitHub Pages, replace all placeholder links and text before sharing the website publicly.</p>
-          </div> -->
         </div>
       </div>
     </section>
