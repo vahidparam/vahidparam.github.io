@@ -47,8 +47,6 @@
       position: relative;
     }
 
-
-
     a {
       color: inherit;
       text-decoration: none;
@@ -82,7 +80,6 @@
 
     .brand {
       font-weight: 600;
-      font-family: ;
       letter-spacing: 0.02em;
       display: inline-block;
       font-size: 1.05rem;
@@ -107,6 +104,7 @@
       color: var(--muted);
       font-size: 0.95rem;
       font-weight: 500;
+      align-items: center;
     }
 
     .nav-links a {
@@ -119,6 +117,101 @@
     .nav-links a.active {
       color: var(--accent);
       border-color: var(--accent);
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 0 4px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .nav-dropdown-toggle:hover,
+    .nav-dropdown.open .nav-dropdown-toggle,
+    .nav-dropdown-toggle:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    .dropdown-caret {
+      font-size: 0.78rem;
+      transform-origin: center;
+      transition: transform 0.18s ease;
+    }
+
+    .nav-dropdown.open .dropdown-caret {
+      transform: rotate(180deg);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 14px);
+      right: 0;
+      min-width: 290px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(9, 65, 65, 0.98);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+      z-index: 50;
+    }
+
+    .nav-dropdown.open .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+
+    .nav-dropdown-menu a:hover,
+    .nav-dropdown-menu a:focus-visible {
+      background: var(--surface-2);
+      border-color: var(--border-strong);
+      color: var(--accent-soft);
+      transform: translateX(2px);
+      outline: none;
+    }
+
+    .dropdown-item-title {
+      display: block;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .dropdown-item-subtitle {
+      display: block;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--muted);
     }
 
     .hero {
@@ -153,7 +246,7 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 20px;
-      background: var(--surfae-2);
+      background: var(--surface-2);
       color: var(--accent-soft);
       font-size: 0.75rem;
       font-weight: 500;
@@ -541,7 +634,6 @@
     .about-bg-image {
       width: min(1200px, 47%);
       height: auto;
-      /* filter: grayscale(1) brightness(1.06) contrast(0.95); */
       opacity: 1;
     }
 
@@ -549,7 +641,6 @@
       width: min(1000px, 28%);
       height: auto;
       filter: drop-shadow(0 1px 0px rgb(60, 112, 197));
-     
     }
 
     footer {
@@ -601,6 +692,26 @@
       .nav {
         align-items: start;
         flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+      }
+
+      .nav-dropdown {
+        width: 100%;
+      }
+
+      .nav-dropdown-toggle {
+        width: max-content;
+      }
+
+      .nav-dropdown-menu {
+        position: static;
+        margin-top: 10px;
+        min-width: 100%;
+        right: auto;
+        transform: translateY(0);
       }
 
       .hero {
@@ -658,7 +769,24 @@
         <a href="#research">Research</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
-        <a href="bookshelf/">Bookshelf</a>
+
+        <div class="nav-dropdown" id="interestsDropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="interestsMenu">
+            Shelf & Studio
+            <span class="dropdown-caret" aria-hidden="true">▾</span>
+          </button>
+
+          <div class="nav-dropdown-menu" id="interestsMenu" role="menu" aria-label="Interests">
+            <a href="bookshelf/" role="menuitem">
+              <span class="dropdown-item-title">Bookshelf</span>
+              <span class="dropdown-item-subtitle">Selected reads, notes, and recommendations</span>
+            </a>
+            <a href="https://vahidparam.com/3Dnetwork_studio/" target="_blank" rel="noopener noreferrer" role="menuitem">
+              <span class="dropdown-item-title">3D Network Visualization</span>
+              <span class="dropdown-item-subtitle">Interactive tool for exploring network structures</span>
+            </a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -835,6 +963,41 @@
     }, { threshold: 0.35 });
 
     sections.forEach(section => observer.observe(section));
+
+    const dropdown = document.getElementById('interestsDropdown');
+    const dropdownToggle = dropdown?.querySelector('.nav-dropdown-toggle');
+    const dropdownMenuLinks = dropdown?.querySelectorAll('.nav-dropdown-menu a');
+
+    if (dropdown && dropdownToggle) {
+      const closeDropdown = () => {
+        dropdown.classList.remove('open');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+      };
+
+      const toggleDropdown = (event) => {
+        event.stopPropagation();
+        const isOpen = dropdown.classList.toggle('open');
+        dropdownToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      };
+
+      dropdownToggle.addEventListener('click', toggleDropdown);
+
+      dropdownMenuLinks.forEach(link => {
+        link.addEventListener('click', closeDropdown);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!dropdown.contains(event.target)) {
+          closeDropdown();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeDropdown();
+        }
+      });
+    }
   </script>
 </body>
 
