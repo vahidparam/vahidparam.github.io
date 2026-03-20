@@ -76,6 +76,7 @@
       justify-content: space-between;
       padding: 16px 0;
       gap: 16px;
+      position: relative;
     }
 
     .brand {
@@ -90,11 +91,56 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 4px;
+      min-width: 0;
+      flex: 1 1 auto;
     }
 
     .brand-subtitle,
     .muted {
       color: var(--muted);
+    }
+
+    .brand-subtitle {
+      max-width: 60ch;
+    }
+
+    .nav-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+    }
+
+    .nav-toggle:hover,
+    .nav-toggle:focus-visible {
+      border-color: var(--accent);
+      background: var(--surface-2);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .nav-toggle-icon {
+      display: inline-grid;
+      gap: 4px;
+    }
+
+    .nav-toggle-icon span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
     .nav-links {
@@ -466,6 +512,16 @@
       margin-bottom: 0;
     }
 
+    .about-subhead {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
     .chips {
       display: flex;
       flex-wrap: wrap;
@@ -688,30 +744,124 @@
       }
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 760px) {
       .nav {
-        align-items: start;
-        flex-direction: column;
+        align-items: center;
+        flex-wrap: nowrap;
+      }
+
+      .brand-block {
+        min-width: 0;
+        max-width: calc(100% - 94px);
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+        flex: 0 0 auto;
+        margin-left: auto;
       }
 
       .nav-links {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: min(300px, calc(100vw - 32px));
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding: 12px;
+        background: rgba(9, 65, 65, 0.98);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(10px);
+        z-index: 60;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links>a,
+      .nav-dropdown-toggle {
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
 
       .nav-dropdown {
         width: 100%;
       }
 
-      .nav-dropdown-toggle {
-        width: max-content;
-      }
-
       .nav-dropdown-menu {
         position: static;
-        margin-top: 10px;
-        min-width: 100%;
+        top: auto;
         right: auto;
-        transform: translateY(0);
+        min-width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        margin-top: 0;
+        padding: 0;
+        border: none;
+        border-radius: 10px;
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        pointer-events: auto;
+        transition: max-height 0.22s ease, padding 0.22s ease, margin-top 0.22s ease;
+      }
+
+      .nav-dropdown.open .nav-dropdown-menu {
+        max-height: 180px;
+        margin-top: 6px;
+        padding: 4px 0 0;
+      }
+
+      .nav-dropdown-menu a {
+        padding: 8px 10px;
+        border-radius: 8px;
+      }
+
+      .nav-dropdown-menu a:hover,
+      .nav-dropdown-menu a:focus-visible {
+        transform: none;
+      }
+
+      .dropdown-item-title {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+      }
+
+      .dropdown-item-subtitle {
+        display: none;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .nav {
+        align-items: center;
+        flex-direction: row;
+      }
+
+      .brand {
+        font-size: 1rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+
+      .nav-links {
+        width: min(280px, calc(100vw - 24px));
+        padding: 10px;
       }
 
       .hero {
@@ -764,7 +914,17 @@
         <a class="brand" href="#home">Vahid Khalili Param</a>
         <span class="brand-subtitle">In a never-ending pursuit of meaningful research, knowledge, and lifelong learning.</span>
       </div>
-      <nav class="nav-links">
+
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation">
+        <span>Menu</span>
+        <span class="nav-toggle-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+
+      <nav class="nav-links" id="siteNav">
         <a href="#about">About</a>
         <a href="#research">Research</a>
         <a href="#projects">Projects</a>
@@ -853,8 +1013,10 @@
               I am particularly interested in how digital traces can be used to understand political communication,
               agenda setting, coordinated action, and public discourse across platforms.
             </p>
+
+            <h3 class="about-subhead">Beyond Research</h3>
             <p>
-              Beyond research, I am a professional social media strategist, narrative designer, and digital communicator, with a strong ability to identify, shape, and communicate value. My work focuses on translating complex research, cultural narratives, and ideas into clear, engaging, and meaningful digital experiences that resonate with diverse audiences.
+              I am a professional social media strategist, narrative designer, and digital communicator, with a strong ability to identify, shape, and communicate value. My work focuses on translating complex research, cultural narratives, and ideas into clear, engaging, and meaningful digital experiences that resonate with diverse audiences.
             </p>
           </div>
 
@@ -947,6 +1109,12 @@
 
     const sections = document.querySelectorAll('main section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
+    const navToggle = document.getElementById('navToggle');
+    const siteNav = document.getElementById('siteNav');
+    const dropdown = document.getElementById('interestsDropdown');
+    const dropdownToggle = dropdown?.querySelector('.nav-dropdown-toggle');
+    const dropdownMenuLinks = dropdown?.querySelectorAll('.nav-dropdown-menu a');
+    const mobileNavQuery = window.matchMedia('(max-width: 760px)');
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -967,16 +1135,22 @@
 
     sections.forEach(section => observer.observe(section));
 
-    const dropdown = document.getElementById('interestsDropdown');
-    const dropdownToggle = dropdown?.querySelector('.nav-dropdown-toggle');
-    const dropdownMenuLinks = dropdown?.querySelectorAll('.nav-dropdown-menu a');
-
-    if (dropdown && dropdownToggle) {
-      const closeDropdown = () => {
+    const closeDropdown = () => {
+      if (dropdown && dropdownToggle) {
         dropdown.classList.remove('open');
         dropdownToggle.setAttribute('aria-expanded', 'false');
-      };
+      }
+    };
 
+    const closeSiteNav = () => {
+      if (siteNav && navToggle) {
+        siteNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+      closeDropdown();
+    };
+
+    if (dropdown && dropdownToggle) {
       const toggleDropdown = (event) => {
         event.stopPropagation();
         const isOpen = dropdown.classList.toggle('open');
@@ -986,21 +1160,66 @@
       dropdownToggle.addEventListener('click', toggleDropdown);
 
       dropdownMenuLinks.forEach(link => {
-        link.addEventListener('click', closeDropdown);
-      });
-
-      document.addEventListener('click', (event) => {
-        if (!dropdown.contains(event.target)) {
+        link.addEventListener('click', () => {
           closeDropdown();
-        }
-      });
-
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          closeDropdown();
-        }
+          if (mobileNavQuery.matches) {
+            closeSiteNav();
+          }
+        });
       });
     }
+
+    if (navToggle && siteNav) {
+      navToggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isOpen = siteNav.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+        if (!isOpen) {
+          closeDropdown();
+        }
+      });
+
+      siteNav.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', () => {
+          if (mobileNavQuery.matches) {
+            closeSiteNav();
+          }
+        });
+      });
+    }
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+
+      if (dropdown && !dropdown.contains(target)) {
+        closeDropdown();
+      }
+
+      if (
+        mobileNavQuery.matches &&
+        siteNav &&
+        navToggle &&
+        !siteNav.contains(target) &&
+        !navToggle.contains(target)
+      ) {
+        closeSiteNav();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeSiteNav();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (!mobileNavQuery.matches && siteNav && navToggle) {
+        siteNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        closeDropdown();
+      }
+    });
   </script>
 </body>
 
