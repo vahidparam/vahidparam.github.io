@@ -4,13 +4,11 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(any-hover: hover) and (any-pointer: fine)');
   const toggle = document.querySelector('.dot-motion-toggle');
+  const sourceLetter = document.querySelector('[data-dot-source]');
+  const textContext = document.createElement('canvas').getContext?.('2d');
   let mouseSeen = false;
-  let motionChoice = null;
-  try {
-    const saved = window.sessionStorage?.getItem('vkp.dotMotion');
-    if (saved === 'on') motionChoice = true;
-    if (saved === 'off') motionChoice = false;
-  } catch { /* Storage can be unavailable in private or embedded previews. */ }
+  // Play is the page's default. Pause applies until the next page load.
+  let motionChoice = true;
   const pointer = { x: 0, y: 0, present: false };
   const dot = { x: 0, y: 0, size: 0 };
   let overlay = null;
@@ -22,6 +20,25 @@
   let activeIndex = 0;
   let frame = 0;
   let lastTime = 0;
+  let entrance = null;
+  let entrancePlayed = false;
+
+  function dropOrigin() {
+    if (!sourceLetter) return { x: points[0].x, y: Math.max(96, points[0].y - 500) };
+    const rect = sourceLetter.getBoundingClientRect();
+    if (textContext && typeof window.getComputedStyle === 'function') {
+      const style = window.getComputedStyle(sourceLetter);
+      textContext.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      const metrics = textContext.measureText('i');
+      if (Number.isFinite(metrics.fontBoundingBoxDescent) && Number.isFinite(metrics.actualBoundingBoxAscent)) {
+        return {
+          x: rect.left + (metrics.actualBoundingBoxRight - metrics.actualBoundingBoxLeft) / 2,
+          y: rect.bottom - metrics.fontBoundingBoxDescent - metrics.actualBoundingBoxAscent + points[0].size / 2
+        };
+      }
+    }
+    return { x: rect.left + rect.width * 0.65, y: rect.top + rect.height * 0.2 };
+  }
 
   function measure() {
     points = anchors.map(anchor => {
@@ -69,15 +86,36 @@
     overlay.style.height = `${dot.size.toFixed(2)}px`;
     overlay.style.transform = `translate3d(${(dot.x - dot.size / 2).toFixed(2)}px, ${(dot.y - dot.size / 2).toFixed(2)}px, 0)`;
     overlay.dataset.landing = anchors[activeIndex].dataset.dotAnchor;
+    overlay.dataset.mode = entrance ? 'drop' : playing ? 'play' : 'docked';
   }
 
   function tick(time) {
     frame = 0;
     if (!enabled || document.hidden) { lastTime = 0; return; }
     if (layoutDirty) measure();
-    const target = playing && pointer.present && activeIndex === 0 ? escapedTarget() : points[activeIndex];
     const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 1 / 60;
     lastTime = time;
+    if (entrance) {
+      entrance.elapsed += delta * 1000;
+      const progress = Math.min(1, entrance.elapsed / entrance.duration);
+      const landing = points[0];
+      const fall = Math.min(1, progress / 0.72);
+      const rebound = Math.max(0, (progress - 0.72) / 0.28);
+      const bounce = Math.sin(rebound * Math.PI) * (1 - rebound) * 24;
+      // A short sideways arc carries the tittle from the i to the surname.
+      dot.x = entrance.fromX + (landing.x - entrance.fromX) * (1 - Math.pow(1 - fall, 2));
+      dot.y = entrance.fromY + (landing.y - entrance.fromY) * fall * fall - bounce;
+      dot.size = landing.size;
+      if (progress >= 1) {
+        entrance = null;
+        Object.assign(dot, landing);
+        lastTime = 0;
+      }
+      paint();
+      if (entrance) schedule();
+      return;
+    }
+    const target = playing && pointer.present && activeIndex === 0 ? escapedTarget() : points[activeIndex];
     const easing = 1 - Math.exp(-delta * (playing ? 20 : 12));
     dot.x += (target.x - dot.x) * easing;
     dot.y += (target.y - dot.y) * easing;
@@ -103,8 +141,9 @@
 
   function updateEligibility() {
     const hasMouse = finePointer.matches || mouseSeen;
-    enabled = hasMouse && (motionChoice ?? !reducedMotion.matches);
+    enabled = hasMouse && motionChoice;
     stop();
+    entrance = null;
     playing = false;
     document.body.classList.toggle('dot-game-active', enabled);
     document.body.classList.toggle('dot-motion-override', enabled && motionChoice === true);
@@ -127,13 +166,33 @@
     scrollLocked = window.scrollY > 10;
     measure();
     Object.assign(dot, points[activeIndex]);
+    if (!entrancePlayed) {
+      entrancePlayed = true;
+      if (activeIndex === 0 && dot.y > 110 && dot.y < window.innerHeight - 10) {
+        const origin = dropOrigin();
+        entrance = {
+          elapsed: 0,
+          duration: reducedMotion.matches ? 700 : 850,
+          fromX: origin.x,
+          fromY: origin.y,
+          scrollStart: window.scrollY
+        };
+        dot.x = entrance.fromX;
+        dot.y = entrance.fromY;
+      }
+    }
     paint();
+    if (entrance) schedule();
   }
 
   function handleMouseMove(event) {
     if (event.pointerType && event.pointerType !== 'mouse') return;
-    if (!mouseSeen) { mouseSeen = true; updateEligibility(); }
+    if (!mouseSeen) {
+      mouseSeen = true;
+      if (!finePointer.matches) updateEligibility();
+    }
     if (!enabled) return;
+    if (entrance) return;
     if (layoutDirty) measure();
     if (activeIndex !== 0) return;
     pointer.x = event.clientX;
@@ -147,7 +206,6 @@
   window.addEventListener('mousemove', handleMouseMove, { passive: true });
   toggle?.addEventListener('click', () => {
     motionChoice = !enabled;
-    try { window.sessionStorage?.setItem('vkp.dotMotion', motionChoice ? 'on' : 'off'); } catch { /* Optional preference. */ }
     updateEligibility();
   });
 
@@ -160,11 +218,12 @@
   window.addEventListener('blur', releasePointer);
   window.addEventListener('scroll', () => {
     playing = false;
+    if (entrance && Math.abs(window.scrollY - entrance.scrollStart) > 4) entrance = null;
     scrollLocked = window.scrollY > 10;
     layoutDirty = true;
     schedule();
   }, { passive: true });
-  window.addEventListener('resize', () => { layoutDirty = true; playing = false; schedule(); }, { passive: true });
+  window.addEventListener('resize', () => { entrance = null; layoutDirty = true; playing = false; schedule(); }, { passive: true });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stop();
     else { layoutDirty = true; schedule(); }

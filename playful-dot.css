@@ -1,5 +1,6 @@
 /* Punctuation keeps its space while a single decorative dot moves between titles. */
 .dot-word { white-space: nowrap; }
+.hero-identity h1 > .name-first:before { content: none; }
 .dot-anchor {
   display: inline-block;
   position: relative;

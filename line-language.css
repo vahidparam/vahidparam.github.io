@@ -1,4 +1,4 @@
-﻿/* A few deliberate line accents, with plain rules throughout the rest of the site. */
+/* A few deliberate line accents, with plain rules throughout the rest of the site. */
 .line-motif { display: block; color: var(--accent); pointer-events: none; overflow: visible; }
 .section-marker--motif { position: relative; border-top: 0; padding-top: 25px; }
 .section-marker--motif:before { content: ''; position: absolute; top: 0; left: 160px; right: 0; height: 1px; background: var(--line); }
@@ -25,3 +25,6 @@ footer.container { border-top: 1px solid var(--line); }
   .hero-scroll { font-size: 10px; }
   .shelf-line-path { width: 120px; height: 42.67px; margin-block: 12px; }
 }
+
+#research > .research-projects { margin-top: 0; margin-bottom: 60px; }
+@media (max-width: 760px) { #research > .research-projects { margin-bottom: 40px; } }
