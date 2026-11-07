@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="divider" viewBox="0 0 160 32">
+    <path d="M0 24h32V8h24v16h104" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+  </symbol>
+  <symbol id="bookmark" viewBox="0 0 180 64">
+    <path d="M0 18h58v34h34V6h88" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+  </symbol>
+  <symbol id="step" viewBox="0 0 120 40">
+    <path d="M0 25h32V9h30v16h58" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M20 40V18h58V0" fill="none" stroke="currentColor" stroke-width=".8" opacity=".4" vector-effect="non-scaling-stroke"/>
+  </symbol>
+  <symbol id="bridge" viewBox="0 0 320 96">
+    <path d="M0 66h80V26h64v40h176" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M44 92V46h128V4" fill="none" stroke="currentColor" stroke-width=".8" opacity=".4" vector-effect="non-scaling-stroke"/>
+  </symbol>
+  <symbol id="corner" viewBox="0 0 96 96">
+    <path d="M8 88V24h40V8h40" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M28 70V44h40V28" fill="none" stroke="currentColor" stroke-width=".8" opacity=".4" vector-effect="non-scaling-stroke"/>
+  </symbol>
+  <symbol id="route" viewBox="0 0 600 120">
+    <path d="M0 86h144V26h96v60h360" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M90 116V56h210V0" fill="none" stroke="currentColor" stroke-width=".8" opacity=".4" vector-effect="non-scaling-stroke"/>
+  </symbol>
+</svg>

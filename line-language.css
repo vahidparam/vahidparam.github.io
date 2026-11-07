@@ -1,0 +1,27 @@
+﻿/* A few deliberate line accents, with plain rules throughout the rest of the site. */
+.line-motif { display: block; color: var(--accent); pointer-events: none; overflow: visible; }
+.section-marker--motif { position: relative; border-top: 0; padding-top: 25px; }
+.section-marker--motif:before { content: ''; position: absolute; top: 0; left: 160px; right: 0; height: 1px; background: var(--line); }
+.section-marker--motif > span:first-of-type { color: var(--accent); }
+.section-path { position: absolute; width: 160px; height: 32px; top: -24px; left: 0; }
+.portrait:before, .portrait:after { content: none; }
+.project-art:hover .time-orbits { transform: translate3d(8px, -8px, 0); }
+footer.container { border-top: 1px solid var(--line); }
+.shelf-line-path { width: 150px; height: 53.33px; margin: 12px 0 14px; opacity: .55; }
+.bookshelf-main .book-index:after { content: none; }
+.profile-details { padding-top: 20px; }
+.profile-affiliation { font-size: 11px; line-height: 1.8; color: var(--muted); max-width: 360px; }
+.profile-focus-title { font-size: 16px; letter-spacing: -.025em; margin: 22px 0 9px; }
+.profile-focus { font-size: 13px; line-height: 1.8; color: var(--muted); max-width: 350px; }
+.hero-scroll { display: flex; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid var(--line); padding: 17px 0; font-size: 11px; color: var(--muted); }
+.hero-scroll > span { color: var(--accent); font-size: 18px; }
+@media (max-width: 760px) {
+  .section-path { width: 120px; height: 24px; top: -18px; }
+  .section-marker--motif:before { left: 120px; }
+  .profile-details { padding-top: 17px; }
+  .profile-affiliation { font-size: 10px; }
+  .profile-focus-title { margin-top: 18px; }
+  .profile-focus { font-size: 12px; }
+  .hero-scroll { font-size: 10px; }
+  .shelf-line-path { width: 120px; height: 42.67px; margin-block: 12px; }
+}

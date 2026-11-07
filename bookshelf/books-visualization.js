@@ -148,19 +148,17 @@
       .filter(book => book._date)
       .sort((a, b) => a._date - b._date);
 
-    const undatedCount = rawBooks.length - datedBooks.length;
-
     if (!datedBooks.length) {
       container.innerHTML = `
         <div class="timeline-empty">
-          Add valid <code>read_date</code> values in <code>books.json</code> to see your reading timeline.
+          No reading dates in this selection.
         </div>
       `;
 
       if (meta) {
         meta.textContent = rawBooks.length
-          ? "No valid reading dates found in the current selection."
-          : "Hover points to inspect books over time.";
+          ? "Books on the reading list are not plotted."
+          : "No dated books to show.";
       }
 
       hideTooltip(tooltip);
@@ -202,7 +200,7 @@
         class="timeline-svg"
         viewBox="0 0 ${width} ${height}"
         aria-label="Reading timeline chart"
-        role="img"
+        role="group"
       >
         ${yTicks.map(tick => `
           <line
@@ -254,14 +252,14 @@
             r="5.2"
             tabindex="0"
             data-index="${index}"
-            aria-label="${escapeHtml(point.book.title || "Book")} read ${escapeHtml(point.book.read_date || "")}"
+            aria-label="${escapeHtml(point.book.title || "Book")}, rating ${point.book._rating} out of 5, read ${escapeHtml(point.book.read_date || "")}"
           ></circle>
         `).join("")}
       </svg>
     `;
 
     if (meta) {
-      meta.textContent = `${datedBooks.length} dated book${datedBooks.length > 1 ? "s" : ""} from ${formatDate(new Date(minTime), false)} to ${formatDate(new Date(maxTime), false)}${undatedCount > 0 ? ` · ${undatedCount} without read dates` : ""}.`;
+      meta.textContent = `${datedBooks.length} book${datedBooks.length > 1 ? "s" : ""} · ${formatDate(datedBooks[0]._date, false)}–${formatDate(datedBooks[datedBooks.length - 1]._date, false)}`;
     }
 
     const pointNodes = container.querySelectorAll(".timeline-point");
@@ -295,6 +293,9 @@
       });
 
       node.addEventListener("blur", deactivate);
+      node.addEventListener("keydown", event => {
+        if (event.key === "Escape") deactivate();
+      });
 
       node.addEventListener("click", event => {
         activate(event);

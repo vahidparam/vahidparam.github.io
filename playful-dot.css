@@ -1,0 +1,40 @@
+/* Punctuation keeps its space while a single decorative dot moves between titles. */
+.dot-word { white-space: nowrap; }
+.dot-anchor {
+  display: inline-block;
+  position: relative;
+  width: .16em;
+  height: .16em;
+  margin-left: .035em;
+  overflow: hidden;
+  vertical-align: baseline;
+  line-height: 0;
+  letter-spacing: 0;
+  color: transparent;
+}
+.dot-anchor:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.dot-game-active .dot-anchor:after { opacity: 0; }
+.playful-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 15;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+.playful-dot[hidden] { display: none; }
+.dot-motion-toggle { background: none; color: var(--accent); border: 0; border-bottom: 1px solid var(--line); font-size: 10px; padding: 7px 0; cursor: pointer; flex-shrink: 0; }
+.dot-motion-toggle[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .dot-game-active:not(.dot-motion-override) .dot-anchor:after { opacity: 1; }
+  body:not(.dot-motion-override) .playful-dot { display: none; }
+}
