@@ -44,8 +44,19 @@
 :root[data-theme="dark"] .following-art { background: #203e33; color: #e1eddd; }
 :root[data-theme="dark"] .following-art:hover { color: #fff; }
 :root[data-theme="dark"] .nowruz-art { background: #25392c; color: #cde3c8; }
-:root[data-theme="dark"] .network-image { filter: invert(1) brightness(.9); }
 :root[data-theme="dark"] .affiliation-logo--vrl { filter: brightness(0) invert(1); }
+/* Turn the dark recording into a colored drawing on paper in light mode. */
+:root[data-theme="light"] .network-film { background: var(--paper); }
+:root[data-theme="light"] .network-video {
+  filter: invert(1) hue-rotate(180deg) saturate(.65) contrast(1.45);
+  mix-blend-mode: multiply;
+}
+:root[data-theme="light"] .network-dot-screen {
+  background-image: radial-gradient(circle, var(--accent) .55px, transparent .85px);
+  opacity: .04;
+  mix-blend-mode: multiply;
+}
+:root[data-theme="light"] .network-instrument-lines { color: var(--accent); opacity: .55; }
 :root[data-theme="dark"] .shelf-controls input,
 :root[data-theme="dark"] .shelf-controls select { background: var(--soft); color: var(--ink); }
 :root[data-theme="dark"] .timeline-tooltip { background: var(--soft); box-shadow: 0 8px 25px #0003; }
