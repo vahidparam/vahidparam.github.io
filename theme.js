@@ -3,11 +3,11 @@
   const key = 'vkp.theme';
   const root = document.documentElement;
   const themeColor = document.querySelector('meta[name="theme-color"]');
-  let theme = 'light';
-  try { if (window.localStorage.getItem(key) === 'dark') theme = 'dark'; } catch { /* The toggle also works without storage. */ }
+  let theme = 'dark';
+  try { theme = window.localStorage.getItem(key) === 'light' ? 'light' : 'dark'; } catch { /* The toggle also works without storage. */ }
 
   function apply(value) {
-    theme = value === 'dark' ? 'dark' : 'light';
+    theme = value === 'light' ? 'light' : 'dark';
     root.dataset.theme = theme;
     themeColor?.setAttribute('content', theme === 'dark' ? '#161b18' : '#ffffff');
     document.querySelectorAll('.theme-toggle').forEach(button => {

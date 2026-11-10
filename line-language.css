@@ -27,4 +27,14 @@ footer.container { border-top: 1px solid var(--line); }
 }
 
 #research > .research-projects { margin-top: 0; margin-bottom: 60px; }
+#research > .section-heading { align-items: start; }
+.research-intro { width: 325px; max-width: 100%; flex-shrink: 0; }
+.research-intro > p { color: var(--muted); font-size: 13px; }
+.research-affiliations { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+.research-affiliation { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; min-width: 0; }
+.research-affiliation .micro { color: var(--muted); font-size: 9px; }
+.research-affiliation:hover .micro { color: var(--accent); }
+.affiliation-logo { flex-shrink: 0; object-fit: contain; }
+.affiliation-logo--sabanci { width: 138px; height: 64px; object-position: left center; }
+.affiliation-logo--vrl { width: 70px; height: 64px; }
 @media (max-width: 760px) { #research > .research-projects { margin-bottom: 40px; } }

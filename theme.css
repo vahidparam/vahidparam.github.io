@@ -41,12 +41,11 @@
 :root[data-theme="dark"] .communication-section { background: #1c241e; }
 :root[data-theme="dark"] .contact-section { background: #253127; }
 :root[data-theme="dark"] .contact-section .section-marker { border-color: #405143; }
-:root[data-theme="dark"] .contact-arrow { border-color: #526151; }
-:root[data-theme="dark"] .contact-arrow:hover { background: var(--soft); }
 :root[data-theme="dark"] .following-art { background: #203e33; color: #e1eddd; }
 :root[data-theme="dark"] .following-art:hover { color: #fff; }
 :root[data-theme="dark"] .nowruz-art { background: #25392c; color: #cde3c8; }
 :root[data-theme="dark"] .network-image { filter: invert(1) brightness(.9); }
+:root[data-theme="dark"] .affiliation-logo--vrl { filter: brightness(0) invert(1); }
 :root[data-theme="dark"] .shelf-controls input,
 :root[data-theme="dark"] .shelf-controls select { background: var(--soft); color: var(--ink); }
 :root[data-theme="dark"] .timeline-tooltip { background: var(--soft); box-shadow: 0 8px 25px #0003; }
