@@ -90,7 +90,7 @@
   function escapedTarget() {
     const radius = Math.min(100, Math.max(76, window.innerWidth * 0.065));
     const angle = Math.atan2(dot.y - pointer.y, dot.x - pointer.x);
-    const padding = isFinalDot() ? 58 : dot.size / 2 + 16;
+    const padding = isPlayfulAnchor() ? 58 : dot.size / 2 + 16;
     const size = points[activeIndex].size;
     // Stay on the cursor's radius, choosing another side near a viewport edge.
     const offsets = [0, Math.PI / 4, -Math.PI / 4, Math.PI / 2, -Math.PI / 2, Math.PI];
@@ -147,16 +147,22 @@
     overlay.dataset.landing = anchors[activeIndex].dataset.dotAnchor;
     overlay.dataset.mode = entrance ? 'drop' : playing ? 'play' : handoff || morph > .01 ? 'aperture' : 'docked';
     if (geometryGroup) {
-      const final = isFinalDot();
-      const radius = Math.max(final ? 42 : 12, dot.size * .68);
+      const keepShapes = isPlayfulAnchor();
+      const retainedOpacity = keepShapes ? .38 * (entrance ? Math.min(1, entrance.elapsed / 220) : 1) : 0;
+      const radius = Math.max(keepShapes ? 42 : 12, dot.size * .68);
       const [outline, detail] = geometryPaths(radius, geometryVariant);
       corners.setAttribute('d', outline);
       construction.setAttribute('d', detail);
       geometryGroup.setAttribute('transform', `translate(${dot.x.toFixed(2)} ${dot.y.toFixed(2)}) rotate(${rotation.toFixed(2)})`);
       geometryGroup.setAttribute('data-variant', String(Math.max(0, geometryVariant)));
       halo.setAttribute('r', String(radius * .72));
-      halo.setAttribute('opacity', final ? '.45' : '0');
-      geometry.style.opacity = enabled && !entrance && (!playing || final) ? String(final ? Math.max(.38, morph * .55) : morph * .55) : '0';
+      halo.setAttribute('opacity', keepShapes ? '.45' : '0');
+      geometry.style.opacity = enabled && (!playing || keepShapes) ? String(Math.max(retainedOpacity, morph * .55)) : '0';
+    }
+    if (typeof window.CustomEvent === 'function') {
+      document.dispatchEvent(new window.CustomEvent('portfolio:dot', {
+        detail: { chapter: anchors[activeIndex].dataset.dotAnchor, morph, rotation, variant: Math.max(0, geometryVariant) }
+      }));
     }
   }
 
@@ -173,13 +179,18 @@
       const fall = Math.min(1, progress / 0.72);
       const rebound = Math.max(0, (progress - 0.72) / 0.28);
       const bounce = Math.sin(rebound * Math.PI) * (1 - rebound) * 24;
+      const opening = Math.sin(progress * Math.PI) ** 2;
       // A short sideways arc carries the tittle from the i to the surname.
       dot.x = entrance.fromX + (landing.x - entrance.fromX) * (1 - Math.pow(1 - fall, 2));
       dot.y = entrance.fromY + (landing.y - entrance.fromY) * fall * fall - bounce;
-      dot.size = landing.size;
+      // The same geometric aperture unfolds during the fall and closes on landing.
+      dot.size = landing.size + opening * Math.min(56, window.innerWidth * .08, window.innerHeight * .08);
+      morph = opening * .7;
+      rotation = opening * -35;
       if (progress >= 1) {
         entrance = null;
         Object.assign(dot, landing);
+        morph = rotation = 0;
         lastTime = 0;
       }
       paint();
@@ -288,6 +299,7 @@
       entrancePlayed = true;
       if (activeIndex === 0 && dot.y > 110 && dot.y < window.innerHeight - 10) {
         const origin = dropOrigin();
+        geometryVariant = (geometryVariant + 1) % 6;
         entrance = {
           elapsed: 0,
           duration: reducedMotion.matches ? 700 : 850,
@@ -359,5 +371,6 @@
   }
   // Image loading or text reflow can move all following section titles.
   if ('ResizeObserver' in window) new ResizeObserver(refreshLayout).observe(document.querySelector('main'));
+  if (window.portfolioJourney) window.portfolioJourney.getGeometry = geometryPaths;
   updateEligibility();
 })();

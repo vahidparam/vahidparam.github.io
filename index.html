@@ -98,7 +98,7 @@
       <div class="research-grid" data-depth="content">
         <figure class="network-exhibit" aria-label="Network visualization">
           <div class="network-heading"><span class="micro">Network visualization</span></div>
-          <div class="network-stage" role="button" tabindex="0" aria-label="Play or pause the network video" aria-pressed="false">
+          <div class="network-stage">
             <div class="network-film">
             <video class="network-video" width="758" height="628" autoplay muted loop playsinline preload="metadata" poster="images/network-video-poster-175743.webp" aria-label="Recording of a rotating 3D network with colored communities and connected nodes">
               <source src="images/SpinningVideos/Screen%20Recording%202026-11-10%20175743.mp4" type="video/mp4" />
@@ -107,9 +107,13 @@
             <span class="network-dot-screen" aria-hidden="true"></span>
             <svg class="network-instrument-lines" viewBox="0 0 832 732" preserveAspectRatio="none" aria-hidden="true" focusable="false">
               <g fill="none" stroke="currentColor" stroke-width=".8" vector-effect="non-scaling-stroke">
-                <path d="M22 66V22h92M718 22h92v44M22 666v44h92M718 710h92v-44" />
                 <path d="M36 92h56M36 86v12M92 89v6M796 258v216M791 258h10M793 312h6M791 366h10M793 420h6M791 474h10" opacity=".45" />
                 <path d="M49 633h18M58 624v18" opacity=".65" />
+              </g>
+              <g class="network-shared-geometry" transform="translate(416 366)">
+                <circle r="176" />
+                <path class="network-pattern-outline" d="M-244 122V-244H85V-85H244V244" />
+                <path class="network-pattern-detail" d="M-122 244V-122H159" opacity=".45" />
               </g>
             </svg>
             </div>

@@ -1,4 +1,4 @@
-﻿// Play the supplied network recording only while the exhibit is visible.
+// Continuous muted playback, mouse movement, and shared geometric transitions.
 (() => {
   const exhibit = document.querySelector('.network-exhibit');
   const video = exhibit?.querySelector('.network-video');
@@ -7,7 +7,6 @@
   const film = exhibit.querySelector('.network-film');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let visible = false;
-  let userPaused = false;
   let blocked = false;
   let pending = false;
   let request = 0;
@@ -15,14 +14,9 @@
   let lastTime = 0;
   const pointer = { x: 0, y: 0, hover: 0, targetX: 0, targetY: 0, targetHover: 0 };
   // Direct mouse interaction stays available; reduced motion uses a gentler response.
-  const shouldPlay = () => visible && !document.hidden && !userPaused && !blocked;
+  const shouldPlay = () => !document.hidden && !blocked;
   const canTilt = () => visible && !document.hidden;
 
-  function updatePlaybackLabel() {
-    const stopped = userPaused || blocked;
-    stage.setAttribute('aria-label', stopped ? 'Play the network video' : 'Pause the network video');
-    stage.setAttribute('aria-pressed', String(!stopped));
-  }
   function resetTilt() {
     cancelAnimationFrame(frame);
     frame = 0;
@@ -34,7 +28,6 @@
     film.style.willChange = '';
   }
   function syncPlayback() {
-    updatePlaybackLabel();
     if (!shouldPlay()) {
       request++;
       pending = false;
@@ -53,7 +46,6 @@
       if (attempt !== request) return;
       pending = false;
       blocked = true;
-      updatePlaybackLabel();
     });
   }
   function animate(time) {
@@ -92,35 +84,47 @@
     pointer.targetHover = 0;
     startTilt();
   });
-  function togglePlayback() {
-    if (userPaused || blocked) {
-      userPaused = false;
-      blocked = false;
-    } else userPaused = true;
-    syncPlayback();
-  }
-  stage.addEventListener('click', togglePlayback);
-  stage.addEventListener('keydown', event => {
-    if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
-      event.preventDefault();
-      togglePlayback();
-    }
-  });
   video.addEventListener('play', () => { if (!shouldPlay()) video.pause(); });
+  video.addEventListener('pause', () => { if (shouldPlay()) syncPlayback(); });
+  video.addEventListener('canplay', () => { blocked = false; syncPlayback(); });
   video.addEventListener('error', () => {
     blocked = true;
     resetTilt();
-    updatePlaybackLabel();
   });
   reducedMotion.addEventListener('change', () => {
     resetTilt();
   });
   document.addEventListener('visibilitychange', syncPlayback);
+  // A browser that requires a first gesture can start playback without a toggle.
+  function retryPlayback() { if (blocked) { blocked = false; syncPlayback(); } }
+  document.addEventListener('pointerdown', retryPlayback, { once: true });
+  document.addEventListener('keydown', retryPlayback, { once: true });
+  const sharedFrame = exhibit.querySelector('.network-shared-geometry');
+  const sharedOutline = exhibit.querySelector('.network-pattern-outline');
+  const sharedDetail = exhibit.querySelector('.network-pattern-detail');
+  document.addEventListener('portfolio:dot', event => {
+    const state = event.detail;
+    if (state.chapter !== 'interests') {
+      film.style.setProperty('--network-pulse', '0');
+      return;
+    }
+    const pulse = Math.max(0, Math.min(1, state.morph));
+    film.style.setProperty('--network-pulse', pulse.toFixed(4));
+    const shapes = window.portfolioJourney?.getGeometry?.(244, state.variant);
+    if (shapes && sharedFrame) {
+      sharedOutline.setAttribute('d', shapes[0]);
+      sharedDetail.setAttribute('d', shapes[1]);
+      sharedFrame.setAttribute('transform', `translate(416 366) rotate(${(state.rotation * .6).toFixed(2)})`);
+      sharedFrame.setAttribute('data-variant', String(state.variant));
+    }
+  });
   video.muted = true;
   video.controls = false;
+  video.loop = true;
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       visible = entries[0].isIntersecting;
+      if (!visible) resetTilt();
       syncPlayback();
     }, { threshold: .01 }).observe(stage);
   } else visible = true;
