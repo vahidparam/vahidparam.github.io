@@ -18,6 +18,7 @@
   let layoutDirty = true;
   let points = [];
   let activeIndex = 0;
+  let journeyTarget = null;
   let frame = 0;
   let lastTime = 0;
   let entrance = null;
@@ -53,6 +54,12 @@
     // The title nearest the reader's upper-middle viewport owns the dot.
     if (!scrollLocked) {
       activeIndex = 0;
+      journeyTarget = null;
+      return;
+    }
+    journeyTarget = window.portfolioJourney?.getDotTarget(points) || null;
+    if (journeyTarget) {
+      activeIndex = journeyTarget.index;
       return;
     }
     const readingLine = window.innerHeight * 0.36;
@@ -86,7 +93,7 @@
     overlay.style.height = `${dot.size.toFixed(2)}px`;
     overlay.style.transform = `translate3d(${(dot.x - dot.size / 2).toFixed(2)}px, ${(dot.y - dot.size / 2).toFixed(2)}px, 0)`;
     overlay.dataset.landing = anchors[activeIndex].dataset.dotAnchor;
-    overlay.dataset.mode = entrance ? 'drop' : playing ? 'play' : 'docked';
+    overlay.dataset.mode = entrance ? 'drop' : playing ? 'play' : journeyTarget?.traveling ? 'journey' : 'docked';
   }
 
   function tick(time) {
@@ -115,7 +122,7 @@
       if (entrance) schedule();
       return;
     }
-    const target = playing && pointer.present && activeIndex === 0 ? escapedTarget() : points[activeIndex];
+    const target = playing && pointer.present && activeIndex === 0 ? escapedTarget() : (journeyTarget || points[activeIndex]);
     const easing = 1 - Math.exp(-delta * (playing ? 20 : 12));
     dot.x += (target.x - dot.x) * easing;
     dot.y += (target.y - dot.y) * easing;
@@ -141,7 +148,7 @@
 
   function updateEligibility() {
     const hasMouse = finePointer.matches || mouseSeen;
-    enabled = hasMouse && motionChoice;
+    enabled = (hasMouse || Boolean(window.portfolioJourney)) && motionChoice;
     stop();
     entrance = null;
     playing = false;

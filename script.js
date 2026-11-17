@@ -23,7 +23,7 @@ document.addEventListener('keydown', event => {
 });
 mobile.addEventListener('change', closeMenu);
 const navLinks = [...navigation.querySelectorAll('a[href^="#"]')];
-if ('IntersectionObserver' in window) {
+if ('IntersectionObserver' in window && !document.querySelector('.home-page .scene')) {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;

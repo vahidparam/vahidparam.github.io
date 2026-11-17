@@ -4,7 +4,7 @@
 .network-stage { position: relative; margin-top: 14px; perspective: 900px; touch-action: pan-y; cursor: pointer; }
 .network-stage:focus-visible { outline: 1px solid var(--accent); outline-offset: 6px; }
 .network-film { position: relative; overflow: hidden; isolation: isolate; background: #18201b; transform-origin: center; }
-.network-video { display: block; width: 100%; height: auto; aspect-ratio: 832 / 732; object-fit: contain; background: #242424; filter: saturate(.82) contrast(1.08); mask-image: radial-gradient(circle, #000 1.3px, #000e 1.8px); mask-size: 4px 4px; }
+.network-video { display: block; width: 100%; height: auto; aspect-ratio: 758 / 628; object-fit: contain; background: #242424; filter: saturate(.82) contrast(1.08); mask-image: radial-gradient(circle, #000 1.3px, #000e 1.8px); mask-size: 4px 4px; }
 .network-dot-screen { position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(circle, #b5d8bd 0.55px, transparent .85px); background-size: 4px 4px; opacity: .06; mix-blend-mode: screen; }
 .network-instrument-lines { position: absolute; inset: 0; width: 100%; height: 100%; color: #b1ceba; opacity: .65; pointer-events: none; }
 .network-exhibit figcaption { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line); }
