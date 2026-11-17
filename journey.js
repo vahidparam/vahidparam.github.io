@@ -1,17 +1,9 @@
-// Native chapter scrolling, layered parallax, and one continuous route for the dot.
+// Native chapter scrolling, parallax, and geometric dot handoffs.
 (() => {
   const scenes = [...document.querySelectorAll('main > .scene')];
   if (!scenes.length) return;
   const root = document.documentElement;
   const header = document.querySelector('.topbar');
-  const anchors = [...document.querySelectorAll('[data-dot-anchor]')];
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const svgNS = 'http://www.w3.org/2000/svg';
-  const thread = document.createElementNS(svgNS, 'svg');
-  thread.setAttribute('class', 'journey-thread');
-  thread.setAttribute('aria-hidden', 'true');
-  const path = document.createElementNS(svgNS, 'path');
-  thread.append(path);
   const progress = document.createElement('div');
   progress.className = 'journey-progress';
   progress.setAttribute('aria-hidden', 'true');
@@ -31,7 +23,7 @@
     navigation.append(link);
     return link;
   });
-  document.body.append(thread, progress, current, navigation);
+  document.body.append(progress, current, navigation);
   let positions = [];
   let frame = 0;
   let dirty = true;
@@ -59,24 +51,31 @@
     const span = positions[next].top - positions[index].top;
     return { index, next, t: span > 0 ? clamp((scroll - positions[index].top) / span) : 0 };
   }
-  function route(from, to, t) {
-    // A restrained curve echoes the open P monogram and stays near the page edge.
-    const bend = window.innerWidth - (window.innerWidth > 760 ? 54 : 20);
-    const u = 1 - t;
+  function transitionPoint(from, to, progress, chapter = 0) {
+    const t = clamp(progress);
+    const ease = t * t * t * (t * (t * 6 - 15) + 10);
+    const morph = Math.sin(Math.PI * t) ** 2;
+    const diameter = Math.min(184, window.innerWidth * .32, window.innerHeight * .24);
+    const size = from.size + (to.size - from.size) * ease + diameter * morph;
+    const margin = 18 + size * .65 * morph;
+    const top = Math.min(88, Math.max(60, window.innerHeight * .1)) + margin;
+    const x = from.x + (to.x - from.x) * ease;
+    const y = from.y + (to.y - from.y) * ease;
     return {
-      x: u * u * u * from.x + 3 * u * u * t * bend + 3 * u * t * t * bend + t * t * t * to.x,
-      y: u * u * u * from.y + 3 * u * u * t * from.y + 3 * u * t * t * to.y + t * t * t * to.y,
-      size: from.size + (to.size - from.size) * t,
-      path: `M${from.x.toFixed(2)} ${from.y.toFixed(2)}C${bend} ${from.y.toFixed(2)} ${bend} ${to.y.toFixed(2)} ${to.x.toFixed(2)} ${to.y.toFixed(2)}`
+      x: t === 0 || t === 1 ? x : clamp(x, margin, window.innerWidth - margin),
+      y: t === 0 || t === 1 ? y : clamp(y, top, window.innerHeight - margin),
+      size, morph,
+      rotation: morph * (chapter % 2 ? 22.5 : -22.5),
+      variant: chapter % 2
     };
   }
   function getDotTarget(points) {
     if (dirty) measure();
     const { index, next, t } = segment();
-    const from = points[index], to = points[next];
-    if (!from || !to) return null;
-    const point = route(from, to, t);
-    return { ...point, index: t > .5 ? next : index, traveling: t > .005 && t < .995 };
+    const active = t > .5 ? next : index;
+    const point = points[active];
+    if (!point) return null;
+    return { ...point, index: active, traveling: false, transition: 'aperture' };
   }
   function render() {
     frame = 0;
@@ -108,19 +107,13 @@
       const distance = clamp((window.scrollY - positions[i].top) / Math.max(window.innerHeight, 1), -1.2, 1.2);
       scene.style.setProperty('--scene-distance', distance.toFixed(4));
     });
-    const points = anchors.map(anchor => {
-      const rect = anchor.getBoundingClientRect();
-      return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, size: rect.width };
-    });
-    const target = getDotTarget(points);
-    if (target) path.setAttribute('d', target.path);
-    thread.hidden = window.scrollY < 20 || reducedMotion.matches;
+
   }
   function schedule() {
     if (!frame && !document.hidden) frame = requestAnimationFrame(render);
   }
   function refresh() { dirty = true; schedule(); }
-  window.portfolioJourney = { getDotTarget, route };
+  window.portfolioJourney = { getDotTarget, transitionPoint };
   root.classList.add('journey-enabled');
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', refresh, { passive: true });
@@ -128,7 +121,6 @@
     if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
     else refresh();
   });
-  reducedMotion.addEventListener('change', refresh);
   document.fonts?.ready.then(refresh);
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(refresh);
